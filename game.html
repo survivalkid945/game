@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-image:url("images/texture/cliff.png");
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
+	-user-select: text;
+}
+body{
+-webkit-user-select: text;
+-moz-user-select: text;
+-ms-user-select: text;
+-user-select: text;
+}
+p, input, textarea{
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
+	-user-select: text;
+}
+input{
+ border:1px solid black;
+ box-shadow: 10px 10px;
+}
+header, footer{
+background-color:black;
+height:50px;
+position:fixed;
+width:100%;
+z-index:1000;
+}
+footer{
+bottom:0px;
+}
+
+</style>
+<script src="functions.js"></script>
+<title>Stick Man Run 2.0</title>
+ <link rel="stylesheet" href="stylesheet.css">
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="script/modernizr-custom.js"></script>
+	<link rel="shortcut icon" href="images/brickmossy.png" type="image/x-icon">
+</head>
+</head>
+<body onload="startGame()">
+<script>
+function openmywebsite() {
+    window.open("http://survivalkid945.blogspot.com/","_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
+}
+function openyt() {
+    window.open("https://www.youtube.com/channel/UCeCvhiUv-5r1OtJyOV6w7DA/","_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
+}
+function openwindow(websiteurl) {
+ window.open(websiteurl, "_blank", "toolbar=yes, scrollbars=yes, resizeable=yes, top=500, left=500, width=10000, height=10000");
+}
+	var myGamePiece;
+	var screenHeight;
+	var myObstacles = [];
+	var myBackground=[];
+	var myScore;
+	var myBackground;
+	var gravityvar=0;
+	var gunshot;
+	var myGameOver;
+	var mycredits;
+	var mycreditsA;
+	var mycreditsB;
+	var myMusic;
+	var myDeathmusic;
+	var myButtonclick;
+	var gameoverimage;
+	var myHealth;
+	var dead;
+	var money=[];
+	var mynpc=[];
+     
+	var Monster={
+		randpos:Math.floor((Math.random() * 100) + 1),//Monster.randpos//
+		type:2,//Monster.type//
+		texture:"Monster.png",//Monster.texture//
+		health:100,//Monster.health//
+		damage:5.5,//Monster.damage//
+		tool:null//Monster.tool//
+	};
+	var Slime={
+		randpos:Math.floor((Math.random() * 100) + 1),//Slime.randpos//
+		type:4,//Slime.type//
+		texture:"slime.png",//Slime.texture//
+		health:50,//Slime.health//
+		damage:1,//Slime.damage//
+		tool:null//Slime.tool//
+	};
+	var Entity= {
+		Player:1,
+		Monster:2,
+		Shop:3,
+		Slime:4
+	};
+	var tool={
+		none:0,
+		brokenaxe:1,
+		axe:2,
+		brokensword:3,
+		sword:4,
+		bow:5,
+		arrow:6
+	};
+	
+	var Player={
+		randpos:Math.floor((Math.random() * 100) + 1),/*Player.randpos*/
+		type:1,/*Player.type*/
+		texture:"images/player/Player2.png",/*Player.texture*/
+		health:1000,/*Player.health*/
+		damage:2,/*Player.damage*/
+		tool:null,/*Player.tool*/
+		score:0
+	};
+	
+	function prevent(event){
+		event.preventDefault();
+	}
+	
+	function NewItem(id,name,texture,damage,cost){
+	this.id = id;
+	this.name = name;
+	this.texture = texture;
+	this.damage = damage;
+	this.cost = cost;
+	this.tool;
+	try{
+	if(this.id<=0) 
+	throw "Error: invalid id, range 6+";
+	}
+	catch(err) {
+	return err;
+	alert(error);
+	this.tool=err;
+	return this.tool;
+	}
+	try{
+	if(this.damage<=0) 
+	throw "Error: Damage is less than or equal to 0";
+		}
+		catch(err) {
+		alert(error);
+			return err;
+			this.tool=err;
+			return this.tool;
+		}
+	}
+	http://stickmanrunner.blogspot.com/
+	
+	
+	
+	
+function reloadpage(){
+location.reload();
+}
+	function sound(src) {
+		this.sound = document.createElement("audio");
+		this.sound.src = src;
+		this.sound.setAttribute("preload", "auto");
+		this.sound.setAttribute("controls", "none");
+		this.sound.style.display = "none";
+		document.body.appendChild(this.sound);
+		this.play = function(){
+			this.sound.play();
+		}
+		this.stop = function(){
+			this.sound.pause();
+		}
+	}
+	
+	
+	
+	/*example sound:
+	var soundvarname;
+	s
+	soundvarname=new sound('file.mp3');
+	soundvarname.play();
+	
+	*/
+	function startGame() {
+
+	NewItem(0,"test","test",0,"test");
+	myMusic = new sound('audio/music.mp3');
+	myMusic.play();
+	myDeathmusic= new sound('audio/gameover.mp3');
+	
+		myGamePiece = new component(30, 30,Player.texture, 10, 120,"image");
+		myGamePiece.gravity = gravityvar;
+		myScore = new component("30px", "Consolas", "white", 280, 40, "text");
+		myHealth = new component("30px", "Consolas", "white", 280, 100, "text");
+	    myGameOver = new component("30px", "Consolas", "Black", 270,250, "text");
+		mycredits = new component("30px", "Consolas", "Black", 270,300, "text");
+		mycreditsA = new component("30px", "Consolas", "Black", 270,350, "text");
+		mycreditsB = new component("30px", "Consolas", "Black", 270,400, "text");
+		
+		myGameArea.start();
+		
+	}
+	
+	
+	
+	var myGameArea = {
+		
+		chat : document.createElement("input"),
+		canvas : document.createElement("canvas"),
+		start : function() {
+			this.chat.text=document.createTextNode("This is new.");
+			this.chat.appendChild(this.chat.text);
+			this.chat.width=1000;
+			
+			this.chat.type="textarea";
+			this.canvas.width = 1000;
+			this.canvas.height = 400;
+			this.context = this.canvas.getContext("2d");
+			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+			document.body.insertBefore(this.chat, document.body.childNodes[0]);
+			this.frameNo = 0;
+			this.interval = setInterval(updateGameArea, 20);
+			window.addEventListener('keydown', function (e) {
+				myGameArea.keys = (myGameArea.keys || []);
+				myGameArea.keys[e.keyCode] = true;
+			})
+			window.addEventListener('keyup', function (e) {
+				myGameArea.keys[e.keyCode] = false; 
+			})
+			window.addEventListener('touchmove', function (e) {
+				myGameArea.x = e.touches[0].screenX;
+				myGameArea.y = e.touches[0].screenY;
+			})
+        },
+		clear : function() {
+			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		}
+	}
+	
+	/*
+	mynpc.push(new component(30,30,Monster.texture,10,,"image"));
+	myGameArea.clear()
+		myGameOver.text="Game Over! " + "Score: " + myGameArea.frameNo;
+		myGameOver.update();
+		mycredits.text = "Made by: Noah Enger, Andrew";
+		mycredits.update();
+		mycreditsA.text = "Programmed By Noah Enger";
+		mycreditsA.update();
+		mycreditsB.text = "illustrated by Andrew Urban";
+		mycreditsB.update();
+		myDeathmusic.play();
+		myMusic.stop();
+		gameoverimage = new component(500,211,"images/texture/11.gif",270,10,"image");
+		gameoverimage.update();
+		*/
+	function gameoverscreen(){
+		myGameArea.clear()
+		myGameOver.text="Game Over! " + "Score: " + myGameArea.frameNo;
+		myGameOver.update();
+		mycredits.text = "Made by: Noah Enger, Andrew";
+		mycredits.update();
+		mycreditsA.text = "Programmed By Noah Enger";
+		mycreditsA.update();
+		mycreditsB.text = "illustrated by Andrew Urban";
+		mycreditsB.update();
+		myDeathmusic.play();
+		myMusic.stop();
+		gameoverimage = new component(500,211,"images/texture/11.gif",270,10,"image");
+		gameoverimage.update();
+		dead=true;
+		return dead;
+	}
+	
+	
+	function component(width, height, color, x, y, type) {
+		this.type = type;
+		if (type == "image" || type == "background") {
+			this.image = new Image();
+			this.image.src = color;
+		}
+		this.score = 0;
+		this.bounce = 0.6;
+        this.speed = 1;
+		this.width = width;
+		this.height = height;
+		this.speedX = 0;
+		this.speedY = 0;    
+		this.x = x;
+		this.y = y;
+		this.gravity = 0;
+		this.gravitySpeed = 0;
+		this.update = function() {
+			ctx = myGameArea.context;
+			if (type == "image" || type == "background") {
+				ctx.drawImage(this.image, 
+				this.x, 
+				this.y,
+				this.width, this.height);
+				if (type == "background") {
+					ctx.drawImage(this.image, 
+					this.x + this.width, this.y, this.width, this.height);
+				}
+			}else if (this.type == "text") {
+				ctx.font = this.width + " " + this.height;
+				ctx.fillStyle = color;
+				ctx.fillText(this.text, this.x, this.y);
+			}
+			else {
+				ctx.fillStyle = color;
+				ctx.fillRect(this.x, this.y, this.width, this.height);
+			}
+		}
+		 this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+			 if (this.type == "background") {
+				 if (this.x == -(this.width)) {
+					 this.x = 0;
+				 }
+			 }
+		}
+           this.newPosNpc = function() {
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+		this.hitBottom = function() {
+			var rockbottom = myGameArea.canvas.height - this.height;
+			if (this.y > rockbottom) {
+			this.gravitySpeed = -(this.gravitySpeed * this.bounce);
+				this.y = rockbottom;
+				this.gravitySpeed = 0;
+			}
+		}
+		this.crashWith = function(otherobj) {
+			var myleft = this.x;
+			var myright = this.x + (this.width);
+			var mytop = this.y;
+			var mybottom = this.y + (this.height);
+			var otherleft = otherobj.x;
+			var otherright = otherobj.x + (otherobj.width);
+			var othertop = otherobj.y;
+			var otherbottom = otherobj.y + (otherobj.height);
+			var crash = true;
+			if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+				crash = false;
+			}
+			return crash;
+		}
+	}
+
+	
+	
+	function download(text, name, type) {
+		var a = document.getElementById("a");
+		var file = new Blob([text], {type: type});
+		a.href = URL.createObjectURL(file);
+		a.download = name;
+	}
+	var gamemode=78;
+       
+     
+     function setmode(mode){
+          if(mode==="easy"){
+               gamemode=100;
+          }else if(mode==="normal"){
+               gamemode=58;
+          }else if(mode==="hard"){
+               gamemode=15;
+          }
+     }
+     
+     
+     
+	function updateGameArea() {
+		var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+		for (i = 0; i < myObstacles.length; i += 1) {
+			if (myGamePiece.crashWith(myObstacles[i])) {
+				
+				health();
+				if(dead==true){
+					
+				}
+				return;
+			} 
+		}
+		for (i = 0; i < money.length; i += 1) {
+			if (myGamePiece.crashWith(money[i])) {
+				Player.score+100;
+		}
+}		
+				
+		if(Player.health<=0){
+			gameoverscreen();
+		}
+		myGameArea.clear();
+		myGamePiece.speedX = 0;
+		myGamePiece.speedY = 0; 
+		if (myGameArea.keys && myGameArea.keys[37])/*a*/ {myGamePiece.speedX = -2; }
+		if (myGameArea.keys && myGameArea.keys[39])/*a*/ {myGamePiece.speedX = 2; }
+		if (myGameArea.keys && myGameArea.keys[38])/*a*/ {myGamePiece.speedY = -2; }
+		if (myGameArea.keys && myGameArea.keys[40])/* */ {myGamePiece.speedY = 2; }
+		if (myGameArea.touchX && myGameArea.touchY) {
+			myGamePiece.x = myGameArea.x;
+			myGamePiece.y = myGameArea.y; 
+		}
+		
+		//myBackground.newPos(); 
+		//myBackground.update();
+		myGameArea.frameNo += 1;
+		if (myGameArea.frameNo == 1 || everyinterval(gamemode)) {
+			x = myGameArea.canvas.width;
+			screenHeight=myGameArea.canvas.height;
+			minHeight = 20;
+			maxHeight = 200;
+			height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+			minGap = 50;
+			maxGap = 200;
+			gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+			/* myObstacles.push(new component(width, height, color, x, y, type)) type*/
+			myObstacles.push(new component(75,50,"images/brick.png",x,0,"image"));
+			myObstacles.push(new component(74,50,"images/brick.png",x,370,"image"));
+			
+			
+			
+			/*wall*/myObstacles.push(new component(16,16, "images/brick.png", x,height +gap, "image"));
+			/*wall*/myObstacles.push(new component(24,24, "images/brick.png", x,gap, "image"));
+			/*wall*/myObstacles.push(new component(12,24, "images/texture/sand.png", x, gap, "image"));	
+			
+			
+			
+			/*wall*/myObstacles.push(new component(24,24, "images/brick.png", x,height +gap, "image"));
+			/*wall*/myObstacles.push(new component(24,24, "images/brick.png", x,gap, "image"));
+			/*wall*/myObstacles.push(new component(12,24, "images/texture/sand.png", x, gap, "image"));
+			/*wall*/myObstacles.push(new component(24,12, "images/texture/sand.png",x,0.10, "image"));	
+			
+			
+		}
+          if (myGameArea.frameNo == 1 || everyinterval(1000)) {
+			x = myGameArea.canvas.width;
+			screenHeight=myGameArea.canvas.height;
+			minHeight = 20;
+			maxHeight = 400;
+			height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+			minGap = 50;
+			maxGap = 200;
+			gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+			/* myObstacles.push(new component(width, height, color, x, y, type)) type*/
+			
+			
+			/*wall*/myObstacles.push(new component(24,24, "images/texture/wall.png", x,height +gap, "image"));
+			/*wall*/myObstacles.push(new component(24,24, "images/texture/brick.png", x,gap, "image"));
+			/*wall*/myObstacles.push(new component(12,24, "images/texture/brick.png", x, gap, "image"));
+			/*wall*/myObstacles.push(new component(24,12, "images/texture/brick.png", x, gap + x-.5, "image"));			
+			/*wall*/myObstacles.push(new component(24,24, "images/texture/wall.png", x,0, "image"));
+			
+			
+			/*wall*/myObstacles.push(new component(24,24, "images/texture/wall.png", x,height-gap, "image"));
+			/*wall*/myObstacles.push(new component(24,24, "images/texture/wall.png", x,gap, "image"));
+			/*wall*/myObstacles.push(new component(12,24, "images/texture/wall.png", x, gap, "image"));
+			/*wall*/myObstacles.push(new component(24,12, "images/texture/wall.png",x,0.10, "image"));	
+			
+		}
+	
+		for (i = 0; i < myObstacles.length; i += 1) {
+			myObstacles[i].x += -1;
+			myObstacles[i].update();
+		}
+		for (i = 0; i < money.length; i += 1) {
+			money[i].x += -1;
+			money[i].update();
+		}
+		myScore.text="SCORE: " + myGameArea.frameNo;
+		myScore.update();
+			myHealth.text="Health: " + Player.health;
+			myHealth.update();
+	
+        myGamePiece.newPos();
+		myGamePiece.update();
+	}
+	
+	function everyinterval(n) {
+		if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+		return false;
+	}
+	
+	function accelerate(n) {
+		myGamePiece.gravity = n;
+	}
+	function moveup() {
+    myGamePiece.speedY -= 1.5; 
+}
+
+/*	function setCookie(cname,cvalue,exdays) {
+		var d = new Date();
+		d.setTime(d.getTime() + (exdays*24*60*60*1000));
+		var expires = "expires=" + d.toGMTString();
+		document.cookie = cname+"="+cvalue+"; "+expires;
+	}
+	
+	function getCookie(cname) {
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0; i<ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+				return c.substring(name.length, c.length);
+			}
+		}
+		return "";
+	}
+	
+	function checkCookie() {
+		var user=getCookie("username");
+		if (user != "") {
+			MyGameS
+		} else {
+			user = prompt("Please enter your name:","");
+			if (user != "" && user != null) {
+				setCookie("username", user, 30);
+			}
+		}
+	}*/
+
+	function health(){
+		var damage=25;
+		var dead=false
+		if(dead==false && Player.health > 0){
+		Player.health-=damage;
+		myGamePiece.newPos();
+		myGamePiece.update();
+		myGamePiece.speedX += 10.5;
+		}else if(Player.health<=0){
+			dead=true;
+			myGameArea.clear()
+			myGameOver.text="Game Over! " + "Score: " + myGameArea.frameNo;
+			myGameOver.update();
+			mycredits.text = "Made by: Noah Enger, Andrew";
+			mycredits.update();
+			mycreditsA.text = "Programmed By Noah Enger";
+			mycreditsA.update();
+			mycreditsB.text = "illustrated by Andrew Urban";
+			mycreditsB.update();
+			myDeathmusic.play();
+			myMusic.stop();
+			gameoverimage = new component(500,211,"images/texture/11.gif",270,10,"image");
+			gameoverimage.update();
+		}
+	}
+
+function movedown() {
+    myGamePiece.speedY += 1.5; 
+}
+
+function moveleft() {
+    myGamePiece.speedX -= 1.5;
+}
+
+function moveright() {
+    myGamePiece.speedX += 1.5;
+}
+	 
+	</script>
+	<br>
+	<dialog id="menuA">
+		<form method="dialog">
+			<section>
+				<p><label for="menuA">Options:</label>
+			</section>
+			<button onclick="reloadpage()">Restart!</button>
+			<button onclick="setmode('hard'); myGameArea.clear(); myGameArea.update(); ">Insane mode</button>
+               <button onclick="setmode('normal'); myGameArea.clear();  myGameArea.update();">Normal mode</button>
+                <button onclick="setmode('easy'); myGameArea.clear(); myGameArea.update();">Easy mode</button>
+				<p>Click the "restart" key to reset the game!</p>
+			<p>Use the Arrow Keys to move</p>
+				<div class="chip">
+					<img src="icon.gif" alt="meme" width="96" height="96">
+					Made by Noah and Andrew!
+				</div>
+			<menu>
+				<button id="cancel" type="reset">Cancel</button>
+				<button type="submit">Confirm</button>
+			</menu>
+		</form>
+	</dialog>
+	<menu>
+		
+		<button id="updateDetails">Options<i class="fa fa-cog fa-spin"></i></button>
+		</menu>
+		<script>
+			(function() {
+				var updateButton = document.getElementById('updateDetails');
+				var cancelButton = document.getElementById('cancel');
+				var favDialog = document.getElementById('menuA');
+				
+				// Update button opens a modal dialog
+				updateButton.addEventListener('click', function() {
+					favDialog.showModal();
+				});
+				
+				// Form cancel button closes the dialog box
+				cancelButton.addEventListener('click', function() {
+					favDialog.close();
+				});
+				
+			})();
+			
+		</script>
+		
+		<a href="" id="a">Download Scores</a>
+		<button onclick="download(myGameArea.frameNo, 'Scores.txt', 'text/plain')">Generate Scores<i class="material-icons">file_download</i></button>
+		<button style="font-size:24px"onclick="openwindow('https://www.youtube.com/channel/UCeCvhiUv-5r1OtJyOV6w7DA/')">My Youtube! <i class="fa fa-youtube-play"></i></button>
+		<button style="font-size:24px" onclick="openwindow('https://www.instagram.com/survivalkid945/?hl=en/')">Instagram<i class="fa fa-instagram"></i></button>
+		<button style="font-size:24px" onclick="openwindow('https://plus.google.com/+survivalkid945z/')">Google +<i class="fa fa-google-plus-square" style="font-size:48px;color:red"></i></button>
+	<img style="-webkit-user-select: none; cursor: zoom-in;" src="file:///E:/programming/PROJECTS/W.I.P/Game/9nxUoCu.gif" width="150" height="100">
+</body>
+</html>

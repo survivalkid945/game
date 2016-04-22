@@ -1,0 +1,162 @@
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+body {
+  background: linear-gradient(to left,black,gray,white);
+}
+p {
+ background: linear-gradient(to bottom, rgb(76,76,76) 0%,rgb(89,89,89) 12%,rgb(102,102,102) 25%,rgb(71,71,71) 39%,rgb(44,44,44) 50%,rgb(0,0,0) 51%,rgb(17,17,17) 60%,rgb(43,43,43) 76%,rgb(28,28,28) 91%,rgb(19,19,19) 100%);
+ text-align:center;
+ clear:both;
+ color:White;
+}
+footer {
+ background-color:BLACK;
+ text-align:center;
+ padding:100px;
+ clear:both;
+ color:white;
+}    
+.btn {
+  background: #1c3813;
+  background-image: -webkit-linear-gradient(top, #1c3813, #1f4e6b);
+  background-image: -moz-linear-gradient(top, #1c3813, #1f4e6b);
+  background-image: -ms-linear-gradient(top, #1c3813, #1f4e6b);
+  background-image: -o-linear-gradient(top, #1c3813, #1f4e6b);
+  background-image: linear-gradient(to bottom, #1c3813, #1f4e6b);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  text-shadow: 1px 1px 3px #028c75;
+  -webkit-box-shadow: 0px 1px 3px #0f050f;
+  -moz-box-shadow: 0px 1px 3px #0f050f;
+  box-shadow: 0px 1px 3px #0f050f;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #260505;
+  background-image: -webkit-linear-gradient(top, #260505, #521026);
+  background-image: -moz-linear-gradient(top, #260505, #521026);
+  background-image: -ms-linear-gradient(top, #260505, #521026);
+  background-image: -o-linear-gradient(top, #260505, #521026);
+  background-image: linear-gradient(to bottom, #260505, #521026);
+  text-decoration: none;
+}
+p3 {
+  background-image:url("");
+ padding:100px;
+ text-align:center;
+ clear:both;
+ color:White;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+.chip {
+    display: inline-block;
+    padding: 0 25px;
+    height: 50px;
+    font-size: 18px;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+}
+
+.chip img {
+    float: left;
+    margin: 0 10px 0 -25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.closebtn {
+    padding-left: 10px;
+    color: #888;
+    font-weight: bold;
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.closebtn:hover {
+    color: #000;
+}
+tab.image{
+	background-color:gray;
+	 box-shadow: 0px 1px 3px #0f050f;
+	 padding:100px
+	 clear:both;
+}
+canvas{
+		box-shadow: 10px 10px;
+}
+#brick{
+	width: 17px;
+    height: 17px;
+    background: url("images/textures.bmp") 0 0;
+}
+#gameborder{
+	width: 1061px;
+    margin: 0 auto;
+    font-family: 'Arimo', sans-serif;
+    position: relative;
+    background-color: #1f7a7a;
+	border-radius: 25px;
+}
